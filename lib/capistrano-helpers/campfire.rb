@@ -19,7 +19,7 @@ CapistranoHelpers.with_configuration do
         someone = ENV['GIT_AUTHOR_NAME'] || git_config['user.name'] || `whoami`.strip
         target = fetch(:stage, 'production')
         config = YAML::load_file(config_file)
-        campfire = Tinder::Campfire.new(config['subdomain'], :token => config['token'])
+        campfire = Tinder::Campfire.new(config['subdomain'], { :token => config['token'], :ssl_verify => false })
         room = campfire.find_room_by_name(config['room'])
         room.speak("#{someone} started deploying #{application} #{branch} to #{target}")
       end
